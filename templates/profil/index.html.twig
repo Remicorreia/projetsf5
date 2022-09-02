@@ -1,0 +1,64 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Page Profil Client!{% endblock %}
+
+{% block h1 %}Profil client{% endblock %}
+{% block body %}
+
+<ul class="list-group">
+    <li class="list-group-item">
+    <strong>Pseudo :</strong>{{app.user.pseudo }}
+    </li>
+
+     <li class="list-group-item">
+    <strong>Identité :</strong>{{app.user.prenom ~ " " ~ app.user.codePostal ~ " " ~ app.user.ville }}
+
+    </li>
+
+     <li class="list-group-item">
+    <strong>E-mail :</strong>{{app.user.email }}
+    </li>
+
+     <li class="list-group-item">
+    <strong>Type :</strong>
+   {% for role in app.user.roles %}
+   {% if role =="ROLE_ADMIN" %}
+    Adminstrateur
+   {% elseif role == "ROLE_CLIENT" %}
+        Client     
+   {% elseif role == "ROLE_MODO"%}
+        Modérateur
+    {% endif %}      
+   {% endfor %}
+    </li>
+    <li class="list-group-item">
+        <strong>Mes commandes : </strong>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Montant</th>
+                    <th>Etat</th>
+                </tr>
+            </thead>
+            <tbody>
+            
+            
+            </tbody>
+        {% for cmd in app.user.commandes %}
+        <tr>    
+            <td>{{cmd.dateEnregistrement|date("d/m/y") }}</td>
+            <td>{{ cmd.montant }}</td>
+            <td>{{ cmd.etat }}</td>
+        </tr>
+
+        {% else %}
+            <tr>
+                <td colspan="3">Aucune commande</td>
+            </tr>
+            
+        {% endfor %}
+        </table>
+    </li>
+</ul>
+{% endblock %}
